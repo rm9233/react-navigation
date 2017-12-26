@@ -46,15 +46,10 @@ type State = {
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56;
+const TITLE_ANDROID_OFFSET = Platform.OS === 'ios' ? 0 : 56;
 
 type Props = HeaderProps & { isLandscape: boolean };
 class Header extends React.PureComponent<Props, State> {
-  static defaultProps = {
-    leftInterpolator: HeaderStyleInterpolator.forLeft,
-    titleInterpolator: HeaderStyleInterpolator.forCenter,
-    rightInterpolator: HeaderStyleInterpolator.forRight,
-  };
-
   static get HEIGHT() {
     console.warn(
       'Header.HEIGHT is deprecated and will be removed before react-navigation comes out of beta.'
@@ -189,7 +184,7 @@ class Header extends React.PureComponent<Props, State> {
       props,
       'left',
       this._renderLeftComponent,
-      this.props.leftInterpolator
+      HeaderStyleInterpolator.forLeft
     );
   }
 
@@ -216,7 +211,7 @@ class Header extends React.PureComponent<Props, State> {
       { ...props, style },
       'title',
       this._renderTitleComponent,
-      this.props.titleInterpolator
+      HeaderStyleInterpolator.forCenter
     );
   }
 
@@ -225,7 +220,7 @@ class Header extends React.PureComponent<Props, State> {
       props,
       'right',
       this._renderRightComponent,
-      this.props.rightInterpolator
+      HeaderStyleInterpolator.forRight
     );
   }
 
@@ -357,12 +352,6 @@ if (Platform.OS === 'ios') {
   };
 } else {
   platformContainerStyles = {
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
-    shadowRadius: StyleSheet.hairlineWidth,
-    shadowOffset: {
-      height: StyleSheet.hairlineWidth,
-    },
     elevation: 4,
   };
 }
@@ -387,9 +376,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: TITLE_OFFSET,
     right: TITLE_OFFSET,
+    marginRight:TITLE_ANDROID_OFFSET,
     top: 0,
     position: 'absolute',
-    alignItems: Platform.OS === 'ios' ? 'center' : 'flex-start',
+    alignItems:'center', // android 默认不是center
   },
   left: {
     left: 0,

@@ -101,7 +101,7 @@ class HeaderBackButton extends React.PureComponent<Props, State> {
                 ]}
                 numberOfLines={1}
               >
-                {backButtonTitle}
+
               </Text>
             )}
         </View>
